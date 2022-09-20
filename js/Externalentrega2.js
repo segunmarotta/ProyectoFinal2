@@ -4,25 +4,41 @@ const loginForm = document.querySelector("#login")
 event.preventDefault();
 let userName = loginForm.username.value;
 let passWord = loginForm.password.value;
-let nUser = userName + passWord;
+let nUser = userName + " " + passWord;
 console.log(userName, passWord);
-
 const newLog = JSON.stringify(nUser)
 localStorage.setItem("userLoginIN", newLog);
 const loginUser = localStorage.getItem("userLoginIN");
 const newLogParseado = JSON.parse(loginUser);
-
 if(userName == "" || passWord == ""){
-    let loginNo = document.createElement("div");
-    loginNo.innerHTML = `<h3 class="mt-2">Por favor complete todos los campos</h3>`
-    loginForm.appendChild(loginNo);
+    Toastify({
+        text: "Por favor complete todos los campos!",
+        duration: 2000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+        background: "red",
+        },
+    }).showToast();
 }else {
     let loginOK = document.getElementById("page");
     loginOK.className = "d-block";
     loginForm.className = "d-none";
+    Toastify({
+        text: `Bienvenido ${nUser} !`,
+        duration: 2000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+        background: "",
+        },
+    }).showToast();
     }
 }
-
 
 class Usuario {
     constructor (fName, lName, age, documento, estadoCivil, income, gastos, rDependencia, actividad, montoASolicitar, id, counter){
@@ -66,7 +82,19 @@ function agregarUsuario(){
                 usuarios[index].rDependencia = userForm.rDependencia.value;
                 usuarios[index].actividad = userForm.actividad.value;
                 usuarios[index].montoASolicitar = userForm.montoASolicitar.value;
+                Toastify({
+                    text: `Usuario ${usuarios[index].fName} ${usuarios[index].lName} editado correctamente!`,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                    background: "",
+                    },
+                }).showToast();
                 break;
+                
             }  
         }
         idEditUser = 0;
@@ -90,6 +118,17 @@ function agregarUsuario(){
         const usuariosJSON = (user, valor) => {sessionStorage.setItem(user,valor)};
         for (const user of usuarios) {
             usuariosJSON(user.fName, JSON.stringify(user))
+            Toastify({
+                text: `Usuario creado correctamente!`,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                background: "green",
+                },
+            }).showToast();
         }
         counter++;
         console.log(usuarios);
@@ -123,12 +162,36 @@ function updateUserHTML(){
 
 //Delete User
 function deleteUsuario(event){
-    const btn = event.target;
-    const coun = btn.id.split('_')[1];
-    usuarios = usuarios.filter((users) => users.counter != coun);
-    console.log(usuarios)
-    updateUserHTML()
-    updateSec()
+    Swal.fire({
+        title: `Esta seguro que quiere eliminar el usuario?`,
+        text: "Se eliminara de forma permanente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Toastify({
+                text: `Usuario eliminado correctamente`,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                background: "red",
+                },
+            }).showToast();
+            const btn = event.target;
+            const coun = btn.id.split('_')[1];
+            usuarios = usuarios.filter((users) => users.counter != coun);
+            console.log(usuarios)
+            updateUserHTML()
+            updateSec()
+        }
+    })
 
 }
 
@@ -173,19 +236,35 @@ function iniSimulacion(event){
     let simu = document.querySelector("#result");
     console.log(miSimulador.value)
         if (usuarios[miSimulador.value].age <= 25 && usuarios[miSimulador.value].montoASolicitar >= 30000){
-            simu.innerHTML = `<h3 class="m-2">No le podremos dar un prestamo al usuario ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} </h3>`    
+            Swal.fire({
+                title: `${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} fue rechazado! `,
+                text: "No le podremos dar un prestamo",
+                icon: 'error',
+                })
             console.log(`No le podremos dar un prestamo al usuario ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName}`);
         }
         else if (usuarios[miSimulador.value].income <= usuarios[miSimulador.value].montoASolicitar / 60) {
-            simu.innerHTML = `<h3 class="m-2">No le podremos dar un prestamo al usuario ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} </h3>`
+            Swal.fire({
+                title: `${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} fue rechazado! `,
+                text: "No le podremos dar un prestamo",
+                icon: 'error',
+                })
             console.log(`No le podremos dar un prestamo al usuario ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName}`);
         }
         else if(usuarios[miSimulador.value].gastos >= usuarios[miSimulador.value].income ) {
-            simu.innerHTML = `<h3 class="m-2">No le podremos dar un prestamo al usuario ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName}.Sus gastos son mayores o iguales a sus ingresos</h3>`
+            Swal.fire({
+                title: `${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} fue rechazado! `,
+                text: "No le podremos dar un prestamo. Sus gastos son mayores o iguales a sus ingresos.",
+                icon: 'error',
+                })
             console.log(`No le podremos dar un prestamo al usuario ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName}.Sus gastos son mayores o iguales a sus ingresos`);
         }
         else {
-            simu.innerHTML = `<h3 class="m-2">${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} fue aceptado para recibir un prestamo. Nos estaremos contactando con usted</h3>`
+            Swal.fire({
+                title: `Felicitaciones! ${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} `,
+                text: "Fue aceptado para recibir un prestamo. Nos estaremos comunicando con usted.",
+                icon: 'success',
+                })
             console.log(`${usuarios[miSimulador.value].fName} ${usuarios[miSimulador.value].lName} fue aceptado para recibir un prestamo. Nos estaremos contactando con usted`);
         }
 }
