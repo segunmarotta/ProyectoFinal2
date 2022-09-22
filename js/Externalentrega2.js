@@ -118,18 +118,18 @@ function agregarUsuario(){
         const usuariosJSON = (user, valor) => {sessionStorage.setItem(user,valor)};
         for (const user of usuarios) {
             usuariosJSON(user.fName, JSON.stringify(user))
-            Toastify({
-                text: `Usuario creado correctamente!`,
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                background: "green",
-                },
-            }).showToast();
         }
+        Toastify({
+            text: `Usuario creado correctamente!`,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+            background: "green",
+            },
+        }).showToast();
         counter++;
         console.log(usuarios);
         updateUserHTML();
@@ -169,7 +169,7 @@ function deleteUsuario(event){
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonText: 'Cancelar',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#d33',
         confirmButtonText: 'Eliminar!'
         }).then((result) => {
         if (result.isConfirmed) {
