@@ -24,7 +24,9 @@ if(userName == "" || passWord == ""){
     }).showToast();
 }else {
     let loginOK = document.getElementById("page");
-    loginOK.className = "d-block";
+    let bodyBg = document.getElementById("body");
+    bodyBg.className = "";
+    loginOK.className = "container d-block";
     loginForm.className = "d-none";
     Toastify({
         text: `Bienvenido ${nUser} !`,
@@ -115,6 +117,22 @@ function agregarUsuario(){
             usuarios.length + 1,
             counter);
         usuarios.push(newUser);
+
+        
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+            title: `${usuarios[0].fName}`,
+            body: 'Post de prueba',
+            userId: 1,
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+
         const usuariosJSON = (user, valor) => {sessionStorage.setItem(user,valor)};
         for (const user of usuarios) {
             usuariosJSON(user.fName, JSON.stringify(user))
@@ -269,3 +287,36 @@ function iniSimulacion(event){
         }
 }
 
+fetch('https://api.openweathermap.org/data/2.5/weather?lat=-34.60&lon=-58.38&appid=4d2be61d4f7a67ef14c1f9b61ec9122f&units=metric&lang=es')
+.then (res => res.json())
+.then(res => getData(res))
+
+function getData(dato){
+    const datos = dato
+    const main = dato.main
+    const tempSec = document.getElementById('temp');
+    const conTemp = document.createElement("div")
+    conTemp.setAttribute("class", "row text-white");
+    conTemp.innerHTML = `<div class="col-6">                       
+                        </div>
+                        <div class="col-2">
+                            <div class=" float-end pt-2">
+                                <p>Buenos Aires</p>
+                            </div>                
+                        </div>
+                        <div class="col-2">
+                            <div class=" float-end pt-2">
+                                <p>Temp min: ${main.temp_min}</p>
+                                
+                            </div>
+                        </div>     
+                            <div class="col-2">
+                                <div class=" float-end pt-2">
+                                <p>Temp max: ${main.temp_max}</p>
+                                </div>
+                            </div>                 
+                        </div> `
+    tempSec.appendChild(conTemp)
+    console.log(datos)
+    console.log(main.temp)
+}
