@@ -24,10 +24,12 @@ if(userName == "" || passWord == ""){
     }).showToast();
 }else {
     let loginOK = document.getElementById("page");
+    let header = document.getElementById("page_title");
     let bodyBg = document.getElementById("body");
-    bodyBg.className = "";
-    loginOK.className = "container d-block";
+    bodyBg.className = "login_color2";
+    loginOK.className = "container-fluid d-block login_color";
     loginForm.className = "d-none";
+    header.className = "col-12 pb-3 pt-3";
     Toastify({
         text: `Bienvenido ${nUser} !`,
         duration: 2000,
@@ -117,6 +119,12 @@ function agregarUsuario(){
             usuarios.length + 1,
             counter);
         usuarios.push(newUser);
+        const userData = document.getElementById('userData');
+        const infoSimu = document.getElementById('infoSimu');
+        if (usuarios.length <= 1) {
+            userData.className = "titles_design text-center mt-3";  
+            infoSimu.className = ""
+        }
 
         
         fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -160,18 +168,21 @@ function updateUserHTML(){
     sector.innerHTML = "";
     usuarios.forEach((user) => {
         let cont = document.createElement("div");
-        cont.setAttribute("class", "col-md-3" )
+        cont.setAttribute("class", "col-md-4 usuarios_color mx-2 mt-2 width_box_users" )
         cont.innerHTML = `<h3>${user.fName} ${user.lName} </h3>
                         <p>Edad: ${user.age}</p>
                         <p>Documento: ${user.documento}</p>
+                        <div id="info${user.counter}" class="d-none">
                         <p>Estado Civil: ${user.estadoCivil}</p>
                         <p>Ingreso: ${user.income}</p>
                         <p>Gastos: ${user.gastos}</p>
                         <p>Relacion de dependencia: ${user.rDependencia}</p>
                         <p>Actividad: ${user.actividad}</p>
                         <p>Monto a Solicitar: ${user.montoASolicitar}</p>
+                        </div>
                         <button id="editBtn_${user.counter}" type="button" class="btn btn-primary" onclick="editUsuario(event)" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
                         <button id="deleteBtn_${user.counter}" type="button" class="btn btn-danger" onclick="deleteUsuario(event)">Delete</button>
+                        <button id="deleteBtn_${user.counter}" type="button" class="btn btn-secondary" onclick="userInfo(event)">More</button>
                         `;
         sector.appendChild(cont);
     } )
@@ -210,7 +221,6 @@ function deleteUsuario(event){
             updateSec()
         }
     })
-
 }
 
 
@@ -234,6 +244,18 @@ function editUsuario (event){
     
 }
 
+
+//User Info
+function userInfo(event){
+    const btnMore = event.target;
+    const coun = btnMore.id.split('_')[1];
+    const user = usuarios.filter((user) => user.counter == coun)[0];
+    const info = document.getElementById(`info${coun}`);
+    info.className = "";
+    console.log(btnMore)
+    console.log(coun)
+    
+}
 
 //Simulador
 let miSimulador = document.querySelector("#simulador select");

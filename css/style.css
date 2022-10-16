@@ -1,4 +1,28 @@
 .login_color{
-    background-color: rgb(12, 4, 60);
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+.header_color{
     color: white;
+    background-color: rgb(140, 25, 75);
+}
+
+.usuarios_color {
+    background-color: rgb(133, 129, 165);
+    color:white;
+    border: 2px solid rgb(2, 37, 67);
+    border-radius: 15px;
+    
+}
+
+.titles_design {
+    text-align: center;
+    border: 2px solid white;
+}
+
+.width_box_users{
+    width: 32%;
+    box-shadow: 3px 3px 3px 3px;
+    padding: 10px;
 }

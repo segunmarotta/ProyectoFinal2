@@ -10,6 +10,25 @@
     <link rel="stylesheet" href="css/style.css">
 
 </head>
+
+<header>
+    <div class=" container-fluid text-center header_color">
+        <div class="row">
+            <div class="col-12">
+                <div id="temp" class="container">
+                        
+                </div>
+            </div>
+            <div id="page_title" class="col-12 d-none">
+                <h2>Bienvenido a nuestro simulador de prestamos</h2>
+
+            </div>
+        </div>
+    </div>
+
+</header>
+
+
 <body id="body" class="login_color">
     <div class=" container-fluid text-center login_color">
         <div class="row">
@@ -45,10 +64,9 @@
     <div id="page" class="container d-none">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center">Dar de alta Usuario</h1>
                 <div class="mt-2">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar nuevo usuario</button>
+                    <button type="button" class="btn btn-primary w-100 mt-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar nuevo usuario</button>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -83,20 +101,28 @@
                 </div>
             </div>
         </div>
-        <div class="m-3 container">
+
+        <div id="usuario" class="">
+                <div class="col-12">
+                    <h3 id="userData" class="d-none"></h3>
+                </div class="container">
+                <ubody class="row" id="usuarios">
+                    <div id="usuarioss" class="m-2"></div>
+                </ubody>
+            
+        </div>
+
+        <div id="infoSimu" class="m-3 container d-none">
             <div class="row">
                 <div class="col-12">
-                    <h3>Simulador</h3>
-                </div>
-                <div class="col-12">
                     <form id="simulador">
-                        <div class="col-12">
+                        <div class="col-12 mt-5">
                             <label for="lang">Elije Usuario para iniciar simulacion:</label>
                         </div>
                         <div class="col-12">
-                            <select name="userElegido" id="lang">
-                            </select>
-                            <button type="submit" value="submit" onclick="iniSimulacion(event)" class="mt-2 btn btn-success">Simular</button>
+                            <select class="w-100 mt-2 text-center" name="userElegido" id="lang">
+                            </select><br>
+                            <button type="submit" value="submit" onclick="iniSimulacion(event)" class="mt-3 mb-2 btn btn-success w-100">Simular</button>
                         </div>
                     </form>
                 </div>
@@ -106,16 +132,7 @@
             </div>
         </div>
 
-        <div id="usuario" class="container">
-            <div>
-                <h2 class="text-center">Usuarios Creados:</h2>
-            </div class="container">
-            <ubody class="row" id="usuarios">
-                <div id="usuarioss" class="m-2"></div>
-            </ubody>
-        </div>
     </div>
-    <div id="messi"></div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- bootstrap JS -->
